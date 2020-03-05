@@ -1,0 +1,129 @@
+server:
+  port: 8080
+spring:
+  #数据源
+  datasource:
+    username: root
+    password: db#@!123WC
+    url: jdbc:mysql://192.168.10.143:3306/datax_web?serverTimezone=Asia/Shanghai&useLegacyDatetimeCode=false&useSSL=false&nullNamePatternMatchesAll=true&useUnicode=true&characterEncoding=UTF-8
+    driver-class-name: com.mysql.jdbc.Driver
+
+  # xxl-job email
+  mail:
+    host: smtp.qq.com
+    port: 25
+    username: xxx@qq.com
+    password: xxx
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+        socketFactory:
+          class: javax.net.ssl.SSLSocketFactory
+
+management:
+  health:
+    mail:
+      enabled: false
+  server:
+    servlet:
+      context-path: /actuator
+
+mybatis-plus:
+  # mapper.xml文件扫描
+  mapper-locations: classpath*:/mybatis-mapper/*Mapper.xml
+  # 实体扫描，多个package用逗号或者分号分隔
+  #typeAliasesPackage: com.yibo.essyncclient.*.entity
+  global-config:
+    # 数据库相关配置
+    db-config:
+      # 主键类型  AUTO:"数据库ID自增", INPUT:"用户输入ID", ID_WORKER:"全局唯一ID (数字类型唯一ID)", UUID:"全局唯一ID UUID";
+      id-type: AUTO
+      # 字段策略 IGNORED:"忽略判断",NOT_NULL:"非 NULL 判断"),NOT_EMPTY:"非空判断"
+      field-strategy: NOT_NULL
+      # 驼峰下划线转换
+      column-underline: true
+      # 逻辑删除
+      logic-delete-value: 0
+      logic-not-delete-value: 1
+      # 数据库类型
+      db-type: mysql
+    banner: false
+  # mybatis原生配置
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+    call-setters-on-nulls: true
+    jdbc-type-for-null: 'null'
+
+# 配置slq打印日志
+logging:
+  level:
+    com.application.base.admin.mapper: info
+  config: classpath:logback.xml
+
+
+
+#datax-job, access token
+datax:
+  job:
+    accessToken:
+    #i18n (default empty as chinese, "en" as english)
+    i18n:
+    ## triggerpool max size
+    triggerpool:
+      fast:
+        max: 200
+      slow:
+        max: 100
+      ### log retention days
+    logretentiondays: 30
+
+##altas 接口.
+altas:
+  address: http://192.168.10.185:21000/
+  username: admin
+  password: admin
+
+##数据管理
+platform:
+  ##是否使用外部数据源配置：true是；false否
+  pswitch: false
+  ##数据库连接地址
+  url: jdbc:mysql://192.168.10.180:3306/source-plat?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
+  username: developer
+  password: ptyy!@3$
+  driver: com.mysql.jdbc.Driver
+  ##访问标识:true 外网,false内网
+  reqTag: true
+  ##外网token
+  tokenInnerUrl: http://192.168.10.180:56705/api-auth/oauth/token?username=admin&password=admin123com&grant_type=password&client_id=webApp&client_secret=webApp
+  ##内网token
+  tokenOuterUrl: http://113.140.78.166:56700/api-auth/oauth/token?username=admin&password=admin123com&grant_type=password&client_id=webApp&client_secret=webApp
+  ##数据源接口的url
+  sourceUrl: http://113.140.78.166:56700/source-plat/sourceInfo/getSourceInfoByPage
+
+##kylin设置
+kylin:
+  kylinApi: http://192.168.10.185:7070/kylin/api
+  kylinUrl: jdbc:kylin://192.168.10.185:7070
+  kylinName: ADMIN
+  kylinPass: KYLIN
+  kylinProject: Kkklin
+
+##elastic设置
+elastic:
+  esCluster: elasticsearch
+  serverIps: 192.168.10.216:9300
+  esName:
+  esPass:
+  ## es的地址：xxx:9200
+  endpoint: 192.168.10.216:9200
+  ## 连接权限配置，如果不需要权限认证，可随意配置，但不能为空，或者不配
+  accessId: elastic
+  ## 连接权限配置，如果不需要权限认证，可随意配置
+  accessKey: elastic
+
